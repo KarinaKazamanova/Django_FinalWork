@@ -13,7 +13,7 @@ Main
         {% for i in list %}
         <div class='recipe'>
         </br>
-           <a href="/recipies/{{ i.id }}" class="nav-link"><h4>{{ i.name }}</h4></a>
+           <a href="{{ i.id }}" class="nav-link"><h4>{{ i.name }}</h4></a>
            <p>{{ i.description }}</p>
             <img class="menu_subbarpic" src="{%static i.image %}" alt="{{ i.name }}" width='120'><br>
         </div>
