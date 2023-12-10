@@ -17,16 +17,23 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-)=($yt-j3a43(0uqk)3+v_40wr@79@8&%r@_^!+qm!!_&u3e5$'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    
+    'Agatha123.pythonanywhere.com'
+]
 
 
 # Application definition
@@ -83,8 +90,15 @@ WSGI_APPLICATION = 'cooking_site.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Agatha123$default',
+        'USERNAME': 'Agatha123',
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': 'Agatha123.mysql.pythonanywhere-services.com',
+        'OPTIONS': {
+            'init_command': "SET NAMES 'utf8mb4';SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+        }
     }
 }
 
@@ -134,3 +148,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REDIRECT_FIELD_NAME = 'index'
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
+
