@@ -1,7 +1,7 @@
 from django import forms
 from .models import Recipies, User
 
-authors = [i for i in User.objects.all()]
+
 class RecipiesForm(forms.ModelForm):
     
     class Meta:
