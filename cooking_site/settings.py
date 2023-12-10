@@ -32,7 +32,7 @@ CSRF_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = [
     
-    'Agatha123.pythonanywhere.com'
+    'agatha123.pythonanywhere.com'
 ]
 
 
