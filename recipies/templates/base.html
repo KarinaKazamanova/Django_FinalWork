@@ -12,14 +12,22 @@
 <body>
     <div class="container-fluid">
         <ul class="nav nav-pills justify-content-end align-items-end">
-            <li class="nav-item"><a href="/recipies" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a href="/recipies/login" class="nav-link">Войти</a></li>
-            {% if user.is_authenticated %}
-            <li class="nav-item"><a href="/recipies/logout" class="nav-link">Выйти</a></li>
+            <li class="nav-item"><a href="" class="nav-link">Главная</a></li>
+
+
+            {% if not user.is_authenticated %}
+            <li class="nav-item"><a href="/accounts/login" class="nav-link">Войти</a></li>
             {% endif %}
-             <li class="nav-item"><a href="/recipies/register" class="nav-link">Регистрация</a></li>
-            <li class="nav-item"><a href="/recipies/edit" class="nav-link">Редактировать</a></li>
-            
+
+
+            {% if user.is_authenticated %}
+            <li class="nav-item"><a href="/accounts/logout" class="nav-link">Выйти</a></li>
+            <li class="nav-item"><a href="/edit" class="nav-link">Редактировать</a></li>
+            {% endif %}
+
+             <li class="nav-item"><a href="/accounts/register" class="nav-link">Регистрация</a></li>
+
+
 
         </ul>
 
@@ -32,7 +40,7 @@
         	{% endfor %}
         {% endif %}
 
-        
+
         {% block content %}
         Страница не заполнена
         {% endblock %}
@@ -43,6 +51,6 @@
     </div>
     </div>
     <script src="/static/js/bootstrap.bundle.min.js"></script>
-    
+
 </body>
 </html>
