@@ -7,10 +7,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', index, name='index'),
-    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('<int:recipe_id>/', recipe, name='recipe'),
     path('edit/', edit_recipe, name='edit_recipe'),
-    path('register/', create_user, name='edit_recipe'),
-    path('login/', my_view, name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    path('accounts/register/', create_user, name='create_user'),
+    path('accounts/login/', my_view, name='login'),
+    path('accounts/logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
 ]
