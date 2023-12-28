@@ -8,7 +8,7 @@ Main
 {% block content%}
         <h1>Главная</h1>
         {%load static%}
-        {% comment %} <img class="menu_subbarpic" src="{%static 'recipies/mainpic.jpg'%}" alt="recipies" width='820'> {% endcomment %}
+        {% comment %} <img class="menu_subbarpic" src="{%static 'mainpic.jpg'%}" alt="recipies" width='820'> {% endcomment %}
 
         {% for i in list %}
         <div class='recipe'>
@@ -20,4 +20,3 @@ Main
         {% endfor %}
 
 {%endblock%}
-  
