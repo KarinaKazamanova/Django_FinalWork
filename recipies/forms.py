@@ -1,6 +1,6 @@
 from django import forms
-from .models import Recipies, User
-
+from .models import Recipies
+from django.contrib.auth.models import User
 
 class RecipiesForm(forms.ModelForm):
     
@@ -12,7 +12,7 @@ class RecipiesForm(forms.ModelForm):
                 'cooking_time',
                 'image',
                 'author',
-                'category',]
+                # 'category',]
         
         
 # class UserForm(forms.ModelForm):
