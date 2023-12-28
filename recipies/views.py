@@ -10,7 +10,8 @@ from django.template.response import TemplateResponse
 from django.views import View
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.utils import timezone
-from .models import User, Recipies, Categories, CategoryRecipe
+from .models import Recipies, Categories, CategoryRecipe
+from django.contrib.auth.models import User
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password, check_password
@@ -62,7 +63,7 @@ def create_item(item, form, field_mapping_dict, models_dict):
         if form.cleaned_data[form_field]:
             # if form_field == 'author':
             #     model = models_dict.get(form_field)
-            #     id = model.objects.filter(username=form.cleaned_data[form_field]).first().id
+            #     id = request.user.id
             #     list_of_data.append(id)
             # elif form_field == 'category':
             #     model = models_dict.get(form_field)
@@ -73,17 +74,18 @@ def create_item(item, form, field_mapping_dict, models_dict):
             list_of_data.append(form.cleaned_data[form_field])
     
     return list_of_data
-    # Model = models_dict.get(item)
-    # print(*list_of_data)
-    # Model(*list_of_data).save()
+  
     
 
 
 
 def index(request):
     
-    result = Recipies.objects.all()
-    result = random.choices(result, k=5)
+    result = Recipies.objects.all() #Скореевсего при большом количестве пользователей и большой базе данных рецептов 
+                                    #данный метод приведет к тому, что база может лечь, если одновременно будет отправлено очень много подобных запросов на получение данных из БД, 
+                                    #поэтому, наверное, необходимо сначала сгенерить случайные id рецептов в диапозоне от минимального до максимально существующего id, а затем выбирать только 5 рецептов из всей БД рецептов, а не как сейчас: сначала все рецепты, а потом только рандомные 5 
+    if len(result) >=5:
+        result = random.choices(result, k=5)
     return render(request, 
                   'index.html', 
                   {'list':result, 
@@ -97,22 +99,23 @@ def edit_recipe(request):
     if request.method == 'POST':
         form = UpdateRecipiesForm(request.POST, request.FILES)
         if form.is_valid():
-            recipe_id = form.cleaned_data['id']
-            recipe = Recipies.objects.filter(pk=recipe_id).first()
+            recipe_name = form.cleaned_data['name']
+            recipe = Recipies.objects.filter(name=recipe_name).first()
             if recipe:
                 update_fields(recipe, form, recipe_field_mapping)
                 recipe.save()
             else:
-                form = RecipiesForm(request.POST, request.FILES)
-                if form.is_valid():
-                    list_of_data = create_item('recipe', form, recipe_field_mapping, models_dict)
-                    item = Recipies(name=list_of_data[0],
-                                    description=list_of_data[1],
-                                    steps=list_of_data[2],
-                                    cooking_time=list_of_data[3],
-                                    image=list_of_data[4],
-                                    author=list_of_data[5])
-                    item.save()
+                # form = RecipiesForm(request.POST, request.FILES)
+                # if form.is_valid():
+                list_of_data = create_item('recipe', form, recipe_field_mapping, models_dict)
+                user = User.objects.filter(pk=request.user.id).first()
+                item = Recipies(name=list_of_data[0],
+                                description=list_of_data[1],
+                                steps=list_of_data[2],
+                                cooking_time=list_of_data[3],
+                                image=list_of_data[4],
+                                author=request.user)
+                item.save()
     else:
         form = UpdateRecipiesForm()
         
